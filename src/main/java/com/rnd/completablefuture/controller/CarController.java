@@ -24,8 +24,8 @@ public class CarController {
     @Autowired
     private CarService carService;
 
-    @PostMapping(value = "/saveCars", produces = {MediaType.APPLICATION_JSON_VALUE},
-            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/saveCars" /*, produces = {MediaType.APPLICATION_JSON_VALUE},
+            consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} */)
     public ResponseEntity<CompletableFuture<List<Car>>> saveCars(@RequestParam(value = "files")MultipartFile[] files) {
         try {
             for(final MultipartFile file: files) {
@@ -37,8 +37,8 @@ public class CarController {
         }
     }
 
-    @GetMapping(value = "/getAllCar", produces = {MediaType.APPLICATION_JSON_VALUE},
-        consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @GetMapping(value = "/getAllCar" /*, produces = {MediaType.APPLICATION_JSON_VALUE},
+        consumes = {MediaType.APPLICATION_JSON_VALUE} */)
     public CompletableFuture<ResponseEntity> getAllCar() {
         return carService.getAllCar().<ResponseEntity>thenApply(ResponseEntity::ok)
                 .exceptionally(handleGetCarFailure);

@@ -5,7 +5,6 @@ import com.rnd.completablefuture.entity.Car;
 import com.rnd.completablefuture.entity.ReportDetail;
 import com.rnd.completablefuture.repository.CarRepository;
 import com.rnd.completablefuture.repository.ReportDetailRepository;
-import jakarta.servlet.http.HttpServletResponse;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,16 +27,13 @@ public class ReportDetailService {
     private final static Gson gson = new Gson();
 
     private final SimpleDateFormat DB_FORMATTER = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
-    private final SimpleDateFormat REPORT_FORMATTER = new SimpleDateFormat("ddmmyyyy_HHmmss");
+    private final SimpleDateFormat REPORT_FORMATTER = new SimpleDateFormat("ddMMyyyy_HHmmss");
 
     @Autowired
     private CarRepository carRepository;
 
     @Autowired
     private ReportDetailRepository reportGeneratedRepository;
-
-    @Autowired
-    private HttpServletResponse response;
 
     @Autowired
     private TaskExecutor generateExecutor;
@@ -95,7 +90,7 @@ public class ReportDetailService {
         Font font = workbook.createFont();
 
         writeHeader(workbook, sheet, style, font);
-        writeBody(carList, workbook, sheet, style, font);
+        writeBody(carList, sheet, style, font);
         workbook.write(bos);
 
         String currentDateTime = REPORT_FORMATTER.format(new Date());
@@ -114,7 +109,7 @@ public class ReportDetailService {
         return reportDetail;
     }
 
-    private void writeBody(List<Car> carList, HSSFWorkbook workbook, Sheet sheet, CellStyle style, Font font) {
+    private void writeBody(List<Car> carList, Sheet sheet, CellStyle style, Font font) {
         int rowIndex = 1;
         int number = 1;
         style.setFont(font);
