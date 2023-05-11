@@ -3,9 +3,9 @@
 ##General Info, this project using :
 Java JDK 17,
 Java Spring Boot 3.1.0-SNAPSHOT version,
-Maven 3.6.3.
+Maven 3.9.1.
 
-##Library :
+## Library :
 Spring Web,
 Spring Boot DevTools,
 Lombok,
@@ -13,7 +13,7 @@ Spring Data JPA,
 H2 Database,
 Gson,
 Apache POI,
-openapi (swagger3)
+openapi (swagger3),
 jUnit5.
 
 ## Rules :
@@ -27,3 +27,12 @@ jUnit5.
 1. Insert Car List into DB (http://localhost:8080/api/saveCars) -> using form-data, and you can upload the raw data in csv in raw-data folder)
 2. Get Car List in DB (http://localhost:8080/api/getAllCar)
 3. Generate Excel in Backgrond process (http://localhost:8080/report/generate)
+
+
+# gRPC
+## Library
+GRPC Spring Boot Starter,
+Grpc Stub,
+Grpc Protobuf,
+Javax Anotation.
+Medium : https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742 
