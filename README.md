@@ -1,20 +1,20 @@
 # rnd-spring-boot-3
 
 ##General Info, this project using :
-Java JDK 17.
-Java Spring Boot 3.1.0-SNAPSHOT version.
-Maven 3.9.1.
+1. Java JDK 17.
+2. Java Spring Boot 3.1.0-SNAPSHOT version.
+3. Maven 3.9.1.
 
 ## Library :
-Spring Web.
-Spring Boot DevTools.
-Lombok.
-Spring Data JPA.
-H2 Database.
-Gson.
-Apache POI.
-openapi (swagger3).
-jUnit5.
+1. Spring Web.
+2. Spring Boot DevTools.
+3. Lombok.
+4. Spring Data JPA.
+5. H2 Database.
+6. Gson.
+7. Apache POI.
+8. openapi (swagger3).
+9. jUnit5.
 
 ## Rules :
 1. Import the postman collection from postman-collection folder in this project to your postman.
@@ -31,9 +31,9 @@ jUnit5.
 
 # gRPC
 ## Library
-GRPC Spring Boot Starter.
-Grpc Stub.
-Grpc Protobuf.
-Javax Anotation.
+1. GRPC Spring Boot Starter.
+2. Grpc Stub.
+3. Grpc Protobuf.
+4. Javax Anotation.
 
 Medium : https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742 
