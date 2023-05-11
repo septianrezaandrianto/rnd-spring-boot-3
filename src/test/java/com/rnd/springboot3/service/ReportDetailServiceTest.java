@@ -1,9 +1,9 @@
-package com.rnd.completablefuture.service;
+package com.rnd.springboot3.service;
 
-import com.rnd.completablefuture.entity.Car;
-import com.rnd.completablefuture.entity.ReportDetail;
-import com.rnd.completablefuture.repository.CarRepository;
-import com.rnd.completablefuture.repository.ReportDetailRepository;
+import com.rnd.springboot3.entity.Car;
+import com.rnd.springboot3.entity.ReportDetail;
+import com.rnd.springboot3.repository.CarRepository;
+import com.rnd.springboot3.repository.ReportDetailRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +41,9 @@ public class ReportDetailServiceTest {
     @InjectMocks
     private ReportDetailService reportDetailService;
 
+
+    static final String storageUrl = "D:/gli/storage/";
+
     @Test
     @DisplayName("should return success generate service")
     public void generate() throws ParseException, IOException {
@@ -50,7 +53,7 @@ public class ReportDetailServiceTest {
                 .createdDate(new Date())
                 .status("GENERATED")
                 .build();
-        when(env.getProperty("download.storage")).thenReturn("D:/reza-files/storage/");
+        when(env.getProperty("download.storage")).thenReturn(storageUrl);
         reportDetailRepository.save(reportDetail);
         String result = reportDetailService.generate(createdDate, manufactur);
         assertEquals("SUCCESS", result);
@@ -64,7 +67,7 @@ public class ReportDetailServiceTest {
                 .createdDate(new Date())
                 .status("GENERATED")
                 .build();
-        when(env.getProperty("download.storage")).thenReturn("D:/reza-files/storage/");
+        when(env.getProperty("download.storage")).thenReturn(storageUrl);
         reportDetailRepository.save(reportDetail);
         String result = reportDetailService.generate(null, null);
         assertEquals("SUCCESS", result);
@@ -80,7 +83,7 @@ public class ReportDetailServiceTest {
         SimpleDateFormat DB_FORMATTER = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
 
         Date date = DB_FORMATTER.parse(createDate);
-        when(env.getProperty("download.storage")).thenReturn("D:/reza-files/storage/");
+        when(env.getProperty("download.storage")).thenReturn(storageUrl);
         when(carRepository.getCarList(date, manufactur)).thenReturn(carList(date));
         ReportDetail result = reportDetailService.generateExcel(reportDetail, createDate, manufactur);
         assertNotNull(result);
@@ -94,7 +97,7 @@ public class ReportDetailServiceTest {
         SimpleDateFormat DB_FORMATTER = new SimpleDateFormat("dd/MMM/yyyy HH:mm:ss");
         Date date = DB_FORMATTER.parse(createDate);
 
-        when(env.getProperty("download.storage")).thenReturn("D:/reza-files/storage/");
+        when(env.getProperty("download.storage")).thenReturn(storageUrl);
         when(carRepository.findAll()).thenReturn(carList(date));
         ReportDetail result = reportDetailService.generateExcel(reportDetail, null, null);
         assertNotNull(result);

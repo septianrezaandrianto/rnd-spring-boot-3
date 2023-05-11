@@ -1,12 +1,11 @@
-package com.rnd.completablefuture.controller;
+package com.rnd.springboot3.controller;
 
-import com.rnd.completablefuture.entity.Car;
-import com.rnd.completablefuture.service.CarService;
+import com.rnd.springboot3.entity.Car;
+import com.rnd.springboot3.service.CarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,7 +1,7 @@
-package com.rnd.completablefuture.service;
+package com.rnd.springboot3.service;
 
-import com.rnd.completablefuture.entity.Car;
-import com.rnd.completablefuture.repository.CarRepository;
+import com.rnd.springboot3.entity.Car;
+import com.rnd.springboot3.repository.CarRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

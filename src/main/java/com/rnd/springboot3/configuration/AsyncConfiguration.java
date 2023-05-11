@@ -1,4 +1,4 @@
-package com.rnd.completablefuture.configuration;
+package com.rnd.springboot3.configuration;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

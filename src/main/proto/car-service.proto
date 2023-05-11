@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.rnd.springboot3";
+
+message CarRequest {
+  int64 id = 1;
+}
+
+message CarResponse {
+  int64 id = 1;
+  string manufactur = 2;
+  string model = 3;
+  string type = 4;
+  string createdDate = 5;
+}
+
+message CarResponseList {
+  repeated CarResponse carResponse = 1;
+}
+
+message CarRequestWithPage {
+  int32 rowPerPage = 1;
+  int32 rowNumber = 2;
+  string key = 3;
+}
+
+message CarResponseWithPage {
+  repeated CarResponse carResponse = 1;
+  int32 rowPerPage = 2;
+  int32 rowNumber = 3;
+  int32 totalData = 4;
+}
+
+message CarCreateRequest {
+  string manufactur = 1;
+  string model = 2;
+  string type = 3;
+}
+
+message CarCreateResponse {
+  string manufactur = 1;
+  string model = 2;
+  string type = 3;
+  string createdDate = 4;
+}
+
+message CarDeleteResponse {
+  string message = 1;
+}
+
+message CarUpdateRequest {
+  int64 id = 1;
+  string manufactur = 2;
+  string model = 3;
+  string type = 4;
+}
+
+
+service CarService {
+  rpc getCar(CarRequest) returns (CarResponse) {};
+  rpc getCarList(CarRequest) returns (CarResponseList) {};
+  rpc getCarWithPage(CarRequestWithPage) returns (CarResponseWithPage) {};
+  rpc getCarWithManualPage(CarRequestWithPage) returns (CarResponseWithPage) {};
+  rpc createCar(CarCreateRequest) returns (CarCreateResponse) {};
+  rpc deleteCar(CarRequest) returns (CarDeleteResponse) {};
+  rpc updateCar(CarUpdateRequest) returns (CarResponse) {};
+}

@@ -1,6 +1,5 @@
-package com.rnd.completablefuture.entity;
+package com.rnd.springboot3.entity;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +13,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity(name = "Car")
-@Table(name="car")
-public class Car implements Serializable {
+@Table(name = "ReportDetail")
+@Entity(name="report_detail")
+public class ReportDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,13 +23,17 @@ public class Car implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name="manufactur")
-    private String manufactur;
-    @Column(name="model")
-    private String model;
-    @Column(name="type")
-    private String type;
+
+    @Column(name="file_name")
+    private String fileName;
+
+    @Column(name="file_path", length = 10000)
+    private String filePath;
+
     @Column(name="created_date")
     private Date createdDate;
+
+    @Column(name="status")
+    private String status;
 
 }

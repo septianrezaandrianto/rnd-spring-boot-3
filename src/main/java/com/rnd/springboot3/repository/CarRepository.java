@@ -1,6 +1,6 @@
-package com.rnd.completablefuture.repository;
+package com.rnd.springboot3.repository;
 
-import com.rnd.completablefuture.entity.Car;
+import com.rnd.springboot3.entity.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
