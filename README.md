@@ -5,7 +5,7 @@
 2. Java Spring Boot 3.1.0-SNAPSHOT version.
 3. Maven 3.9.1.
 
-## Library :
+## Libraries :
 1. Spring Web.
 2. Spring Boot DevTools.
 3. Lombok.
@@ -23,17 +23,18 @@
 4. Open http://localhost:8080/swagger-ui/index.html in your browser for opening swagger.
 5. Open http://localhost:8080/api-docs in your browser for opening API docs.
 
-## I provide some services:
+## I provide some services :
 1. Insert Car List into DB (http://localhost:8080/api/saveCars) -> using form-data, and you can upload the raw data in csv in raw-data folder)
 2. Get Car List in DB (http://localhost:8080/api/getAllCar)
 3. Generate Excel in Backgrond process (http://localhost:8080/report/generate)
 
 
 # gRPC
-## Library
+## Libraries :
 1. GRPC Spring Boot Starter.
 2. Grpc Stub.
 3. Grpc Protobuf.
 4. Javax Anotation.
 
-Medium : https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742 
+## Medium : 
+https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742 
