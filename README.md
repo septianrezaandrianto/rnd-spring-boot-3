@@ -1,19 +1,19 @@
 # rnd-spring-boot-3
 
 ##General Info, this project using :
-Java JDK 17,
-Java Spring Boot 3.1.0-SNAPSHOT version,
+Java JDK 17.
+Java Spring Boot 3.1.0-SNAPSHOT version.
 Maven 3.9.1.
 
 ## Library :
-Spring Web,
-Spring Boot DevTools,
-Lombok,
-Spring Data JPA,
-H2 Database,
-Gson,
-Apache POI,
-openapi (swagger3),
+Spring Web.
+Spring Boot DevTools.
+Lombok.
+Spring Data JPA.
+H2 Database.
+Gson.
+Apache POI.
+openapi (swagger3).
 jUnit5.
 
 ## Rules :
@@ -31,8 +31,9 @@ jUnit5.
 
 # gRPC
 ## Library
-GRPC Spring Boot Starter,
-Grpc Stub,
-Grpc Protobuf,
+GRPC Spring Boot Starter.
+Grpc Stub.
+Grpc Protobuf.
 Javax Anotation.
+
 Medium : https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742 
