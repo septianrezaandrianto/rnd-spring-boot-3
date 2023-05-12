@@ -15,8 +15,16 @@ message CarResponse {
   string createdDate = 5;
 }
 
+message CarResponseFinal {
+  int32 statusCode = 1;
+  string statusMessage = 2;
+  CarResponse data = 3;
+}
+
 message CarResponseList {
-  repeated CarResponse carResponse = 1;
+  int32 statusCode = 1;
+  string statusMessage = 2;
+  repeated CarResponse dataList = 3;
 }
 
 message CarRequestWithPage {
@@ -26,10 +34,12 @@ message CarRequestWithPage {
 }
 
 message CarResponseWithPage {
-  repeated CarResponse carResponse = 1;
-  int32 rowPerPage = 2;
-  int32 rowNumber = 3;
-  int32 totalData = 4;
+  int32 statusCode = 1;
+  string statusMessage = 2;
+  int32 rowPerPage = 3;
+  int32 rowNumber = 4;
+  int32 totalData = 5;
+  repeated CarResponse carResponse = 6;
 }
 
 message CarCreateRequest {
@@ -58,11 +68,11 @@ message CarUpdateRequest {
 
 
 service CarService {
-  rpc getCar(CarRequest) returns (CarResponse) {};
+  rpc getCar(CarRequest) returns (CarResponseFinal) {};
   rpc getCarList(CarRequest) returns (CarResponseList) {};
   rpc getCarWithPage(CarRequestWithPage) returns (CarResponseWithPage) {};
   rpc getCarWithManualPage(CarRequestWithPage) returns (CarResponseWithPage) {};
   rpc createCar(CarCreateRequest) returns (CarCreateResponse) {};
   rpc deleteCar(CarRequest) returns (CarDeleteResponse) {};
-  rpc updateCar(CarUpdateRequest) returns (CarResponse) {};
+  rpc updateCar(CarUpdateRequest) returns (CarResponseFinal) {};
 }

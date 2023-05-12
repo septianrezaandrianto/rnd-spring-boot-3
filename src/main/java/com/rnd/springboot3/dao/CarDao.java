@@ -31,9 +31,9 @@ public class CarDao {
         EntityManager em = createEm();
 
         Car car = em.find(Car.class, id);
-        if(car == null) {
-            throw new NoSuchElementException("Data with ID ".concat(String.valueOf(id)).concat(" not found"));
-        }
+//        if(car == null) {
+//            throw new NoSuchElementException("Data with ID ".concat(String.valueOf(id)).concat(" not found"));
+//        }
         return car;
     }
 

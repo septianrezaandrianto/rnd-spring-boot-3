@@ -1,6 +1,5 @@
 package com.rnd.springboot3.grpc;
 
-import com.google.gson.Gson;
 import com.rnd.springboot3.*;
 import com.rnd.springboot3.dao.CarDao;
 import com.rnd.springboot3.dto.CarResponseDto;
@@ -29,98 +28,151 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
      * @param responseObserver
      */
 
+
     @Override
-    public void getCar(CarRequest request, StreamObserver<CarResponse> responseObserver) {
+    public void getCar(CarRequest request, StreamObserver<CarResponseFinal> responseObserver) {
 
+        CarResponseFinal.Builder response = CarResponseFinal.newBuilder();
         Car car = carDao.getCarById(request.getId());
+        if(car == null) {
+            response = mappingResponseGetCar(404,
+                    "Data with ID ".concat(String.valueOf(request.getId())).concat(" not found!"),
+                    false, null);
 
-        CarResponse carResponse = CarResponse.newBuilder()
-                .setId(request.getId())
-                .setManufactur(car.getManufactur())
-                .setModel(car.getModel())
-                .setType(car.getType())
-                .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
-                .build();
+        } else {
+            CarResponse carResponse = CarResponse.newBuilder()
+                    .setId(request.getId())
+                    .setManufactur(car.getManufactur())
+                    .setModel(car.getModel())
+                    .setType(car.getType())
+                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                    .build();
+
+            response = mappingResponseGetCar(200, "Success",  true, carResponse);
+        }
 
         //set the response object
-        responseObserver.onNext(carResponse);
+        responseObserver.onNext(response.build());
         //mark process is completed
         responseObserver.onCompleted();
     }
 
-    @Override
-    public void getCarList(CarRequest request, StreamObserver<CarResponseList> responseObserver) {
-        List<Car> carList = carDao.getCarList();
-
-        CarResponseList.Builder carBuilder = CarResponseList.newBuilder();
-
-        for(Car car : carList) {
-            carBuilder.addCarResponse(CarResponse.newBuilder()
-                    .setId(car.getId())
-                    .setManufactur(car.getManufactur())
-                    .setModel(car.getModel())
-                    .setType(car.getType())
-                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
-                .build()
-            );
+    private CarResponseFinal.Builder mappingResponseGetCar(int statusCode, String statusMessage, boolean isSuccess,
+                                                     CarResponse carResponse) {
+        if(!isSuccess) {
+            return CarResponseFinal.newBuilder()
+                    .setStatusCode(statusCode)
+                    .setStatusMessage(statusMessage);
+        } else {
+            return CarResponseFinal.newBuilder()
+                    .setStatusCode(statusCode)
+                    .setStatusMessage(statusMessage)
+                    .setData(carResponse);
         }
-        CarResponseList result = carBuilder.build();
-
-        responseObserver.onNext(result);
-        responseObserver.onCompleted();
     }
 
     @Override
-    public void getCarWithPage(CarRequestWithPage request, StreamObserver<CarResponseWithPage> responseObserver) {
-        Page<Car> carPage = carDao.getCarListWithPage(request.getRowPerPage(), request.getRowNumber(), request.getKey());
-        CarResponseWithPage.Builder carBuilder = CarResponseWithPage.newBuilder();
+    public void getCarList(CarRequest request, StreamObserver<CarResponseList> responseObserver) {
+        CarResponseList.Builder carBuilder = CarResponseList.newBuilder();
+        CarResponseList.Builder result = CarResponseList.newBuilder();
 
-        for(Car car : carPage.getContent()) {
-            carBuilder.addCarResponse(CarResponse.newBuilder()
-                    .setId(car.getId())
-                    .setManufactur(car.getManufactur())
-                    .setModel(car.getModel())
-                    .setType(car.getType())
-                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
-                    .build()
-            );
+        List<Car> carList = carDao.getCarList();
+        if(!carList.isEmpty()) {
+            for (Car car : carList) {
+                carBuilder.addDataList(CarResponse.newBuilder()
+                        .setId(car.getId())
+                        .setManufactur(car.getManufactur())
+                        .setModel(car.getModel())
+                        .setType(car.getType())
+                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                        .build()
+                );
+            }
+
+            result = carBuilder
+                    .setStatusCode(200)
+                    .setStatusMessage("Success");
+        } else {
+            result = CarResponseList.newBuilder()
+                    .setStatusCode(404)
+                    .setStatusMessage("Data is empty!");
         }
 
-        CarResponseWithPage result = carBuilder
-                .setRowNumber(request.getRowNumber())
-                .setRowPerPage(request.getRowPerPage())
-                .setTotalData((int) carPage.getTotalElements())
-                .build();
+        responseObserver.onNext(result.build());
+        responseObserver.onCompleted();
+    }
 
-        responseObserver.onNext(result);
+
+    @Override
+    public void getCarWithPage(CarRequestWithPage request, StreamObserver<CarResponseWithPage> responseObserver) {
+        CarResponseWithPage.Builder carBuilder = CarResponseWithPage.newBuilder();
+        CarResponseWithPage.Builder result = CarResponseWithPage.newBuilder();
+
+        Page<Car> carPage = carDao.getCarListWithPage(request.getRowPerPage(), request.getRowNumber(), request.getKey());
+        if(!carPage.isEmpty()) {
+            for (Car car : carPage.getContent()) {
+                carBuilder.addCarResponse(CarResponse.newBuilder()
+                        .setId(car.getId())
+                        .setManufactur(car.getManufactur())
+                        .setModel(car.getModel())
+                        .setType(car.getType())
+                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                        .build()
+                );
+            }
+
+            result = carBuilder
+                    .setStatusCode(200)
+                    .setStatusMessage("Success")
+                    .setRowNumber(request.getRowNumber())
+                    .setRowPerPage(request.getRowPerPage())
+                    .setTotalData((int) carPage.getTotalElements());
+        } else {
+            result = carBuilder
+                    .setStatusCode(404)
+                    .setStatusMessage("Data is empty!")
+                    .setRowNumber(request.getRowNumber())
+                    .setRowPerPage(request.getRowPerPage())
+                    .setTotalData((int) carPage.getTotalElements());
+        }
+        responseObserver.onNext(result.build());
         responseObserver.onCompleted();
     }
 
     @Override
     public void getCarWithManualPage(CarRequestWithPage request, StreamObserver<CarResponseWithPage> responseObserver) {
+        CarResponseWithPage.Builder carBuilder = CarResponseWithPage.newBuilder();
+        CarResponseWithPage.Builder result = CarResponseWithPage.newBuilder();
+
         CarResponseDto carResponseDto = carDao.getCarListWithManualPage(request.getRowPerPage(),
                 request.getRowNumber(), request.getKey());
+        if(!carResponseDto.getCarList().isEmpty()) {
+            for(Car car : carResponseDto.getCarList()) {
+                carBuilder.addCarResponse(CarResponse.newBuilder()
+                        .setId(car.getId())
+                        .setManufactur(car.getManufactur())
+                        .setModel(car.getModel())
+                        .setType(car.getType())
+                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                        .build()
+                );
+            }
 
-        CarResponseWithPage.Builder carBuilder = CarResponseWithPage.newBuilder();
-
-        for(Car car : carResponseDto.getCarList()) {
-            carBuilder.addCarResponse(CarResponse.newBuilder()
-                    .setId(car.getId())
-                    .setManufactur(car.getManufactur())
-                    .setModel(car.getModel())
-                    .setType(car.getType())
-                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
-                    .build()
-            );
+            result = carBuilder
+                    .setStatusCode(200)
+                    .setStatusMessage("Success")
+                    .setRowNumber(carResponseDto.getRowNumber())
+                    .setRowPerPage(carResponseDto.getRowPerpage())
+                    .setTotalData(carResponseDto.getTotalData());
+        } else {
+            result = carBuilder
+                    .setStatusCode(404)
+                    .setStatusMessage("Data is Empty!")
+                    .setRowNumber(carResponseDto.getRowNumber())
+                    .setRowPerPage(carResponseDto.getRowPerpage())
+                    .setTotalData(carResponseDto.getTotalData());
         }
-
-        CarResponseWithPage result = carBuilder
-                .setRowNumber(carResponseDto.getRowNumber())
-                .setRowPerPage(carResponseDto.getRowPerpage())
-                .setTotalData(carResponseDto.getTotalData())
-                .build();
-
-        responseObserver.onNext(result);
+        responseObserver.onNext(result.build());
         responseObserver.onCompleted();
     }
 
@@ -159,22 +211,31 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
     }
 
     @Override
-    public void updateCar(CarUpdateRequest request, StreamObserver<CarResponse> responseObserver) {
-        Car car = carDao.getCarById(request.getId());
+    public void updateCar(CarUpdateRequest request, StreamObserver<CarResponseFinal> responseObserver) {
+        CarResponse.Builder carResponse = CarResponse.newBuilder();
+        CarResponseFinal.Builder response = CarResponseFinal.newBuilder();
 
-        CarResponse response = null;
+        Car car = carDao.getCarById(request.getId());
         if(car != null) {
-            response = CarResponse.newBuilder()
+            carResponse = CarResponse.newBuilder()
                     .setId(request.getId())
                     .setManufactur(request.getManufactur())
                     .setType(request.getType())
                     .setModel(request.getModel())
-                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
-                    .build();
-            carDao.updateCar(response);
+                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()));
+            carDao.updateCar(carResponse.build());
+
+            response = CarResponseFinal.newBuilder()
+                    .setStatusCode(200)
+                    .setStatusMessage("Success")
+                    .setData(carResponse);
+        } else {
+            response = CarResponseFinal.newBuilder()
+                    .setStatusCode(404)
+                    .setStatusMessage("Data with ID ".concat(String.valueOf(request.getId())).concat(" not found!"));
         }
 
-        responseObserver.onNext(response);
+        responseObserver.onNext(response.build());
         responseObserver.onCompleted();
     }
 }
