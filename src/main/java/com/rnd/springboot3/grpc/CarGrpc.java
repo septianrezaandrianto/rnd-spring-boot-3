@@ -1,6 +1,7 @@
 package com.rnd.springboot3.grpc;
 
 import com.rnd.springboot3.*;
+import com.rnd.springboot3.constant.CarConstant;
 import com.rnd.springboot3.dao.CarDao;
 import com.rnd.springboot3.dto.CarResponseDto;
 import com.rnd.springboot3.entity.Car;
@@ -35,8 +36,9 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
         CarResponseFinal.Builder response = CarResponseFinal.newBuilder();
         Car car = carDao.getCarById(request.getId());
         if(car == null) {
-            response = mappingResponseGetCar(404,
-                    "Data with ID ".concat(String.valueOf(request.getId())).concat(" not found!"),
+            response = mappingResponseGetCar(CarConstant.STATUS_CODE_NOT_FOUND,
+                    CarConstant.STATUS_MESSAGE_FAILED.replace(CarConstant.Response.VALUE_REPLACE,
+                            "Data with ID ".concat(String.valueOf(request.getId())).concat(" not found!")),
                     false, null);
 
         } else {
@@ -48,7 +50,8 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                     .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
                     .build();
 
-            response = mappingResponseGetCar(200, "Success",  true, carResponse);
+            response = mappingResponseGetCar(CarConstant.STATUS_CODE_SUCCESS, CarConstant.STATUS_MESSAGE_SUCCESS,
+                    true, carResponse);
         }
 
         //set the response object
@@ -90,12 +93,13 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
             }
 
             result = carBuilder
-                    .setStatusCode(200)
-                    .setStatusMessage("Success");
+                    .setStatusCode(CarConstant.STATUS_CODE_SUCCESS)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_SUCCESS);
         } else {
             result = CarResponseList.newBuilder()
-                    .setStatusCode(404)
-                    .setStatusMessage("Data is empty!");
+                    .setStatusCode(CarConstant.STATUS_CODE_NOT_FOUND)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_FAILED.replace(CarConstant.Response.VALUE_REPLACE,
+                            "Data is empty!"));
         }
 
         responseObserver.onNext(result.build());
@@ -111,7 +115,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
         Page<Car> carPage = carDao.getCarListWithPage(request.getRowPerPage(), request.getRowNumber(), request.getKey());
         if(!carPage.isEmpty()) {
             for (Car car : carPage.getContent()) {
-                carBuilder.addCarResponse(CarResponse.newBuilder()
+                carBuilder.addDataList(CarResponse.newBuilder()
                         .setId(car.getId())
                         .setManufactur(car.getManufactur())
                         .setModel(car.getModel())
@@ -122,15 +126,16 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
             }
 
             result = carBuilder
-                    .setStatusCode(200)
-                    .setStatusMessage("Success")
+                    .setStatusCode(CarConstant.STATUS_CODE_SUCCESS)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_SUCCESS)
                     .setRowNumber(request.getRowNumber())
                     .setRowPerPage(request.getRowPerPage())
                     .setTotalData((int) carPage.getTotalElements());
         } else {
             result = carBuilder
-                    .setStatusCode(404)
-                    .setStatusMessage("Data is empty!")
+                    .setStatusCode(CarConstant.STATUS_CODE_NOT_FOUND)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_FAILED.replace(CarConstant.Response.VALUE_REPLACE,
+                            "Data is empty!"))
                     .setRowNumber(request.getRowNumber())
                     .setRowPerPage(request.getRowPerPage())
                     .setTotalData((int) carPage.getTotalElements());
@@ -148,7 +153,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                 request.getRowNumber(), request.getKey());
         if(!carResponseDto.getCarList().isEmpty()) {
             for(Car car : carResponseDto.getCarList()) {
-                carBuilder.addCarResponse(CarResponse.newBuilder()
+                carBuilder.addDataList(CarResponse.newBuilder()
                         .setId(car.getId())
                         .setManufactur(car.getManufactur())
                         .setModel(car.getModel())
@@ -159,15 +164,16 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
             }
 
             result = carBuilder
-                    .setStatusCode(200)
-                    .setStatusMessage("Success")
+                    .setStatusCode(CarConstant.STATUS_CODE_SUCCESS)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_SUCCESS)
                     .setRowNumber(carResponseDto.getRowNumber())
                     .setRowPerPage(carResponseDto.getRowPerpage())
                     .setTotalData(carResponseDto.getTotalData());
         } else {
             result = carBuilder
-                    .setStatusCode(404)
-                    .setStatusMessage("Data is Empty!")
+                    .setStatusCode(CarConstant.STATUS_CODE_NOT_FOUND)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_FAILED.replace(CarConstant.Response.VALUE_REPLACE,
+                            "Data is empty!"))
                     .setRowNumber(carResponseDto.getRowNumber())
                     .setRowPerPage(carResponseDto.getRowPerpage())
                     .setTotalData(carResponseDto.getTotalData());
@@ -226,13 +232,14 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
             carDao.updateCar(carResponse.build());
 
             response = CarResponseFinal.newBuilder()
-                    .setStatusCode(200)
-                    .setStatusMessage("Success")
+                    .setStatusCode(CarConstant.STATUS_CODE_SUCCESS)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_SUCCESS)
                     .setData(carResponse);
         } else {
             response = CarResponseFinal.newBuilder()
-                    .setStatusCode(404)
-                    .setStatusMessage("Data with ID ".concat(String.valueOf(request.getId())).concat(" not found!"));
+                    .setStatusCode(CarConstant.STATUS_CODE_NOT_FOUND)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_FAILED.replace(CarConstant.Response.VALUE_REPLACE,
+                                    "Data with ID ".concat(String.valueOf(request.getId())).concat(" not found!")));
         }
 
         responseObserver.onNext(response.build());

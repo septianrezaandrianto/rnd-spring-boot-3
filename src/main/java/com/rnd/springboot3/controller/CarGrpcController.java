@@ -1,0 +1,50 @@
+package com.rnd.springboot3.controller;
+
+import com.rnd.springboot3.dto.*;
+import com.rnd.springboot3.service.CarGrpcService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+
+@RestController
+@RequestMapping("/grpc")
+public class CarGrpcController {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(CarGrpcController.class);
+
+    @Autowired
+    private CarGrpcService carGrpcService;
+
+    @GetMapping(value = "/getCar")
+    public ResponseEntity<CarResponseFinalDto> getCar(@RequestParam("id") String id) {
+        return ResponseEntity.ok(carGrpcService.getCar(id));
+    }
+
+    @GetMapping(value = "/getCarList")
+    public ResponseEntity<CarResponseListDto> getCarList() {
+        return ResponseEntity.ok(carGrpcService.getCarList());
+    }
+
+    @PostMapping("/getCarWithPage")
+    public ResponseEntity<CarResponseWithPageDto> getCarWithPage(@RequestBody CarRequestDto carRequestDto) {
+        return ResponseEntity.ok(carGrpcService.getCarWithPage(carRequestDto));
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        String result = null;
+        CarRequestDto carRequestDto = new CarRequestDto();
+        int i =1;
+        for(Field f : carRequestDto.getClass().getDeclaredFields()) {
+           result = f.getName();
+           LOGGER.error("RESULT " + i + " = " + result);
+           i++;
+        }
+        return ResponseEntity.ok(result);
+    }
+}

@@ -39,7 +39,7 @@ message CarResponseWithPage {
   int32 rowPerPage = 3;
   int32 rowNumber = 4;
   int32 totalData = 5;
-  repeated CarResponse carResponse = 6;
+  repeated CarResponse dataList = 6;
 }
 
 message CarCreateRequest {
