@@ -1,5 +1,6 @@
 package com.rnd.springboot3.controller;
 
+import com.rnd.springboot3.CarCreateRequest;
 import com.rnd.springboot3.dto.*;
 import com.rnd.springboot3.service.CarGrpcService;
 import org.slf4j.Logger;
@@ -34,6 +35,22 @@ public class CarGrpcController {
     public ResponseEntity<CarResponseWithPageDto> getCarWithPage(@RequestBody CarRequestDto carRequestDto) {
         return ResponseEntity.ok(carGrpcService.getCarWithPage(carRequestDto));
     }
+
+    @PostMapping("/createCar")
+    public ResponseEntity<CarResponseFinalDto> createCar(@RequestBody CarCreateRequestDto carCreateRequestDto) {
+        return ResponseEntity.ok(carGrpcService.createCar(carCreateRequestDto));
+    }
+
+    @DeleteMapping(value = "/deleteCar")
+    public ResponseEntity<CarResponseFinalDto> deleteCar(@RequestParam("id") String id) {
+        return ResponseEntity.ok(carGrpcService.deleteCar(id));
+    }
+
+    @PutMapping("/updateCar")
+    public ResponseEntity<CarResponseFinalDto> updateCar(@RequestBody CarRequestUpdateDto carRequestUpdateDto) {
+        return ResponseEntity.ok(carGrpcService.updateCar(carRequestUpdateDto));
+    }
+
 
     @GetMapping("/test")
     public ResponseEntity<String> test() {

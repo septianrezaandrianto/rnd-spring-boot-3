@@ -183,7 +183,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
     }
 
     @Override
-    public void createCar(CarCreateRequest request, StreamObserver<CarCreateResponse> responseObserver) {
+    public void createCar(CarCreateRequest request, StreamObserver<CarResponseFinal> responseObserver) {
         Car car = Car.builder()
             .manufactur(request.getManufactur())
             .model(request.getModel())
@@ -193,26 +193,50 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
 
         carDao.insertCar(car);
 
-        CarCreateResponse response = CarCreateResponse.newBuilder()
+        CarResponse carResponse = CarResponse.newBuilder()
                 .setManufactur(car.getManufactur())
                 .setModel(car.getModel())
                 .setType(car.getType())
                 .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
                 .build();
 
+        CarResponseFinal response = CarResponseFinal.newBuilder()
+                .setStatusCode(CarConstant.STATUS_CODE_SUCCESS)
+                .setStatusMessage(CarConstant.STATUS_MESSAGE_SUCCESS)
+                .setData(carResponse)
+                .build();
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
     
     @Override
-    public void deleteCar(CarRequest request, StreamObserver<CarDeleteResponse> responseObserver) {
-        carDao.deleteCar(request.getId());
+    public void deleteCar(CarRequest request, StreamObserver<CarResponseFinal> responseObserver) {
+        CarResponseFinal.Builder response = CarResponseFinal.newBuilder();
 
-        CarDeleteResponse response = CarDeleteResponse.newBuilder()
-                .setMessage("Success delete data with ID ".concat(String.valueOf(request.getId())))
-                .build();
+        Car car = carDao.getCarById(request.getId());
+        if(car == null) {
+            response = mappingResponseGetCar(CarConstant.STATUS_CODE_NOT_FOUND,
+                    CarConstant.STATUS_MESSAGE_FAILED.replace(CarConstant.Response.VALUE_REPLACE,
+                            "Data with ID ".concat(String.valueOf(request.getId())).concat(" not found!")),
+                    false, null);
 
-        responseObserver.onNext(response);
+        } else {
+            CarResponse carResponse = CarResponse.newBuilder()
+                        .setId(car.getId())
+                        .setManufactur(car.getManufactur())
+                        .setModel(car.getModel())
+                        .setType(car.getType())
+                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                    .build();
+            carDao.deleteCar(request.getId());
+
+            response = CarResponseFinal.newBuilder()
+                    .setStatusCode(CarConstant.STATUS_CODE_SUCCESS)
+                    .setStatusMessage(CarConstant.STATUS_MESSAGE_SUCCESS)
+                    .setData(carResponse);
+        }
+
+        responseObserver.onNext(response.build());
         responseObserver.onCompleted();
     }
 

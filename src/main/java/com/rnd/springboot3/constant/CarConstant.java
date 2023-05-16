@@ -12,7 +12,7 @@ public interface CarConstant {
 
      static final class Regex {
         public static final String NUMERIC_REGEX = "\\d+";
-        public static final String ALPHANUMERIC_REGEX = "^[a-zA-Z0-9]+$";
+        public static final String ALPHANUMERIC_REGEX = "^[a-zA-Z0-9 ]+$";
     }
 
     static final class Response {

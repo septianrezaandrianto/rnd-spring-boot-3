@@ -48,17 +48,6 @@ message CarCreateRequest {
   string type = 3;
 }
 
-message CarCreateResponse {
-  string manufactur = 1;
-  string model = 2;
-  string type = 3;
-  string createdDate = 4;
-}
-
-message CarDeleteResponse {
-  string message = 1;
-}
-
 message CarUpdateRequest {
   int64 id = 1;
   string manufactur = 2;
@@ -72,7 +61,7 @@ service CarService {
   rpc getCarList(CarRequest) returns (CarResponseList) {};
   rpc getCarWithPage(CarRequestWithPage) returns (CarResponseWithPage) {};
   rpc getCarWithManualPage(CarRequestWithPage) returns (CarResponseWithPage) {};
-  rpc createCar(CarCreateRequest) returns (CarCreateResponse) {};
-  rpc deleteCar(CarRequest) returns (CarDeleteResponse) {};
+  rpc createCar(CarCreateRequest) returns (CarResponseFinal) {};
+  rpc deleteCar(CarRequest) returns (CarResponseFinal) {};
   rpc updateCar(CarUpdateRequest) returns (CarResponseFinal) {};
 }
