@@ -28,7 +28,6 @@
 2. Get Car List in DB (http://localhost:8080/api/getAllCar)
 3. Generate Excel in Backgrond process (http://localhost:8080/report/generate)
 
-
 # gRPC
 ## Libraries :
 1. GRPC Spring Boot Starter.
@@ -38,3 +37,31 @@
 
 ## Medium : 
 https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742 
+
+
+# Redis 
+## Library :
+1. Redisson
+
+## I provide service for save data into Redis : 
+1. http://localhost:8080/redis/save
+
+
+# Docker Command :
+## docker build -t <repository _name >:<tag> .    ==> docker build -t springboot-3.0:SNAPSHOOT-0.0.1    --> for create docker image
+## docker image ls    --> for look docker image
+## docker rmi <image_id>    ==> docker rmi f9e76994174d    --> for delete docr image
+## docker ps -a    -> for look all container active / inactive
+## docker stop <container_id>    ==> docker stop d0308bcd2b28    --> for stop docker container
+## docker rm <container_id>    ==> docker rm d0308bcd2b28    --> for delete docker container
+## docker run -d --name <container_name> -p <expose_port>:<properites_port> <image_name>:<image_port>    ==> docker run -d --name springboot-3.0 -p 8099:8080 springboot-3.0 ----> for running container docker
+
+
+# Sonarqube
+## Library :
+1. Jacoco
+
+# Rules :
+1. Run Sonarqube Container at Docker : docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
+2. Open on your browser and type http://localhost:9000 for open Sonarqube page
+3. Type in your service for scan your project : mvn clean verify sonar:sonar -Dsonar.projectKey=springboot-3 -Dsonar.projectName='springboot-3' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_f46184d90a5b2afe773b44071ace8c0127281067
