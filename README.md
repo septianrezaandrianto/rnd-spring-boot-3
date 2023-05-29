@@ -48,13 +48,13 @@ https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-s
 
 
 # Docker Command :
-## docker build -t <repository _name >:<tag> .    ==> docker build -t springboot-3.0:SNAPSHOOT-0.0.1    --> for create docker image
-## docker image ls    --> for look docker image
-## docker rmi <image_id>    ==> docker rmi f9e76994174d    --> for delete docr image
-## docker ps -a    -> for look all container active / inactive
-## docker stop <container_id>    ==> docker stop d0308bcd2b28    --> for stop docker container
-## docker rm <container_id>    ==> docker rm d0308bcd2b28    --> for delete docker container
-## docker run -d --name <container_name> -p <expose_port>:<properites_port> <image_name>:<image_port>    ==> docker run -d --name springboot-3.0 -p 8099:8080 springboot-3.0 ----> for running container docker
+1. docker build -t <repository _name >:<tag> .    ==> docker build -t springboot-3.0:SNAPSHOOT-0.0.1    --> for create docker image
+2. docker image ls    --> for look docker image
+3. docker rmi <image_id>    ==> docker rmi f9e76994174d    --> for delete docr image
+4. docker ps -a    -> for look all container active / inactive
+5. docker stop <container_id>    ==> docker stop d0308bcd2b28    --> for stop docker container
+6. docker rm <container_id>    ==> docker rm d0308bcd2b28    --> for delete docker container
+7. docker run -d --name <container_name> -p <expose_port>:<properites_port> <image_name>:<image_port>    ==> docker run -d --name springboot-3.0 -p 8099:8080 springboot-3.0 ----> for running container docker
 
 
 # Sonarqube
