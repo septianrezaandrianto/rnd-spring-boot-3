@@ -16,7 +16,7 @@ import java.util.Map;
 @ControllerAdvice
 public class CarControllerAdvice {
 
-    private static Logger LOGGER = LoggerFactory.getLogger(CarControllerAdvice.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(CarControllerAdvice.class);
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Map<String, Object>> reponseNotFoundException(NotFoundException e) {

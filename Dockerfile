@@ -21,4 +21,9 @@ ENTRYPOINT ["java","-jar","app.jar"]
 # docker ps -a    -> for look all container active / inactive
 # docker stop <container_id>    ==> docker stop d0308bcd2b28    --> for stop docker container
 # docker rm <container_id>    ==> docker rm d0308bcd2b28    --> for delete docker container
-# docker run -d --name <container_name> -p <port>:<port> -p <expose_port>:<expose_port> <image_name>:<image_tag>    ==> docker run -d --name springboot -p 8080:8080 -p 8085:8085 springboot-3.0:SNAPSHOT-0.0.1    --> for running container docker
+# docker run -d --name <container_name> -p <expose_port>:<properites_port> <image_name>:<image_port>    ==> docker run -d --name springboot-3.0 -p 8099:8080 springboot-3.0 ----> for running container docker
+
+
+# for running sonar
+# docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
+# mvn clean verify sonar:sonar -Dsonar.projectKey=springboot-3 -Dsonar.projectName='springboot-3' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_f46184d90a5b2afe773b44071ace8c0127281067

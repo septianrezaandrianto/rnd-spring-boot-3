@@ -1,7 +1,6 @@
 package com.rnd.springboot3.configuration;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -11,13 +10,12 @@ import java.util.concurrent.Executor;
 
 @Configuration
 @EnableAsync
+@Slf4j
 public class AsyncConfiguration {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(AsyncConfiguration.class);
 
     @Bean(name="taskExecutor")
     public Executor taskExecutor() {
-        LOGGER.info("Creating async task Executor");
+        log.info("Creating async task Executor");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(2);
@@ -29,7 +27,7 @@ public class AsyncConfiguration {
 
     @Bean(name="generateExecutor")
     public Executor generateExecutor() {
-        LOGGER.info("Creating async generate Executor");
+        log.info("Creating async generate Executor");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
         executor.setMaxPoolSize(2);

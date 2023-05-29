@@ -3,11 +3,9 @@ package com.rnd.springboot3;
 import com.rnd.springboot3.grpc.CarGrpc;
 import io.grpc.Server;
 import io.grpc.ServerBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.core.env.Environment;
 
 import java.io.IOException;
 

@@ -2,6 +2,7 @@ package com.rnd.springboot3.controller;
 
 import com.rnd.springboot3.entity.Car;
 import com.rnd.springboot3.service.CarService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,8 @@ import java.util.function.Function;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 public class CarController {
-
-    private final static Logger LOGGER = LoggerFactory.getLogger(CarController.class);
 
     @Autowired
     private CarService carService;
@@ -45,7 +45,7 @@ public class CarController {
 
     private Function<Throwable, ResponseEntity<? extends List<Car>>> handleGetCarFailure
             = throwable -> {
-        LOGGER.error("Failed to read records: {}", throwable);
+        log.error("Failed to read records: {}", throwable);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     };
 

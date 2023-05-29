@@ -1,8 +1,8 @@
 package com.rnd.springboot3.controller;
 
-import com.rnd.springboot3.CarCreateRequest;
 import com.rnd.springboot3.dto.*;
 import com.rnd.springboot3.service.CarGrpcService;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +14,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/grpc")
+@Slf4j
 public class CarGrpcController {
-
-    static final Logger LOGGER = LoggerFactory.getLogger(CarGrpcController.class);
 
     @Autowired
     private CarGrpcService carGrpcService;
@@ -59,7 +58,7 @@ public class CarGrpcController {
         int i =1;
         for(Field f : carRequestDto.getClass().getDeclaredFields()) {
            result = f.getName();
-           LOGGER.error("RESULT " + i + " = " + result);
+           log.error("RESULT " + i + " = " + result);
            i++;
         }
         return ResponseEntity.ok(result);

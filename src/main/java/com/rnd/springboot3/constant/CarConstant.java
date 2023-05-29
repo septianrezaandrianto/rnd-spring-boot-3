@@ -11,11 +11,13 @@ public interface CarConstant {
     static final String STATUS_MESSAGE_FAILED = "FAILED - {value}";
 
      static final class Regex {
-        public static final String NUMERIC_REGEX = "\\d+";
-        public static final String ALPHANUMERIC_REGEX = "^[a-zA-Z0-9 ]+$";
+         private Regex() {}
+         public static final String NUMERIC_REGEX = "\\d+";
+         public static final String ALPHANUMERIC_REGEX = "^[a-zA-Z0-9 ]+$";
     }
 
     static final class Response {
+         private Response() {}
          public static final String PARAMETER = "parameter";
          public static final String VALUE = "value";
          public static final String VALUE_REPLACE = "{value}";
