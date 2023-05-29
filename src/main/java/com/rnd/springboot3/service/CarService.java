@@ -2,6 +2,7 @@ package com.rnd.springboot3.service;
 
 import com.rnd.springboot3.entity.Car;
 import com.rnd.springboot3.repository.CarRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@Slf4j
 public class CarService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(CarService.class);
 
     @Autowired
     private CarRepository carRepository;
@@ -30,11 +30,11 @@ public class CarService {
         long start = System.currentTimeMillis();
 
         List<Car> carList = parseCsvFile(file);
-        LOGGER.info("Saving a list of cars of size {} records", carList.size());
+        log.info("Saving a list of cars of size {} records", carList.size());
 
         carList = carRepository.saveAll(carList);
         long finish = System.currentTimeMillis() - start;
-        LOGGER.info("Elapsed time: {}", (finish/ 1000) , " seconds");
+        log.info("Elapsed time: {}", (finish/ 1000) , " seconds");
         return CompletableFuture.completedFuture(carList);
     }
 
@@ -56,19 +56,19 @@ public class CarService {
             }
             return carList;
         } catch (IOException ioe) {
-            LOGGER.error("Failed to parse CSV file {}", ioe);
+            log.error("Failed to parse CSV file {}", ioe);
             throw new Exception("Failed to parse CSV file {}", ioe);
         }
     }
 
     @Async
     public CompletableFuture<List<Car>> getAllCar() {
-        LOGGER.info("Request to get a list of cars");
+        log.info("Request to get a list of cars");
         long start = System.currentTimeMillis();
         List<Car> carList = carRepository.findAll();
         CompletableFuture<List<Car>> result = CompletableFuture.completedFuture(carList);
         long finish = System.currentTimeMillis() - start;
-        LOGGER.info("Elapsed time: {}", (finish/ 1000) , " seconds");
+        log.info("Elapsed time: {}", (finish/ 1000) , " seconds");
         return result;
     }
 

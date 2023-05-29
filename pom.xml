@@ -211,34 +211,34 @@
 								<rule>
 									<element>PACKAGE</element>
 									<limits>
-<!--										<limit>-->
-<!--											<counter>LINE</counter>-->
-<!--											<value>COVEREDRATIO</value>-->
-<!--											<minimum>0.20</minimum>-->
-<!--										</limit>-->
-<!--										<limit>-->
-<!--											<counter>BRANCH</counter>-->
-<!--											<value>COVEREDRATIO</value>-->
-<!--											<minimum>0.20</minimum>-->
-<!--										</limit>-->
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.20</minimum>
+										</limit>
+										<limit>
+											<counter>BRANCH</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>0.20</minimum>
+										</limit>
 										<limit>
 											<counter>INSTRUCTION</counter>
 											<value>COVEREDRATIO</value>
 											<minimum>0.20</minimum>
 										</limit>
 									</limits>
-									<excludes>
-										<exclude>com.rnd.springboot3.constant</exclude>
-										<exclude>com.rnd.springboot3.dao</exclude>
-										<exclude>com.rnd.springboot3</exclude>
-										<exclude>com.rnd.springboot3.configuration</exclude>
-										<exclude>com.rnd.springboot3.controller.advice</exclude>
-										<exclude>com.rnd.springboot3.exception</exclude>
-										<exclude>com.rnd.springboot3.controller</exclude>
-										<exclude>com.rnd.springboot3.dto</exclude>
-										<exclude>com.rnd.springboot3.entity</exclude>
-										<exclude>com.rnd.springboot3.grpc</exclude>
-									</excludes>
+<!--									<excludes>-->
+<!--										<exclude>com.rnd.springboot3.constant</exclude>-->
+<!--										<exclude>com.rnd.springboot3.dao</exclude>-->
+<!--										<exclude>com.rnd.springboot3</exclude>-->
+<!--										<exclude>com.rnd.springboot3.configuration</exclude>-->
+<!--										<exclude>com.rnd.springboot3.controller.advice</exclude>-->
+<!--										<exclude>com.rnd.springboot3.exception</exclude>-->
+<!--										<exclude>com.rnd.springboot3.controller</exclude>-->
+<!--										<exclude>com.rnd.springboot3.dto</exclude>-->
+<!--										<exclude>com.rnd.springboot3.entity</exclude>-->
+<!--										<exclude>com.rnd.springboot3.grpc</exclude>-->
+<!--									</excludes>-->
 								</rule>
 							</rules>
 						</configuration>

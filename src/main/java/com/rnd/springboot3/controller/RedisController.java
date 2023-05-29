@@ -18,7 +18,7 @@ public class RedisController {
     private RedisService redisService;
 
     @GetMapping("/save")
-    public ResponseEntity<Map<String, Object>>  save(@RequestParam("key") String key) {
-        return ResponseEntity.ok(redisService.storeDataToRedis(key));
+    public ResponseEntity<Map<String, Object>>  save(@RequestParam("model") String model) {
+        return ResponseEntity.ok(redisService.storeDataToRedis(model));
     }
 }

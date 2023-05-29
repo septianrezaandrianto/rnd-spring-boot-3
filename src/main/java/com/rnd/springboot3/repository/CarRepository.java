@@ -15,4 +15,7 @@ public interface CarRepository extends JpaRepository<Car, Long> {
             nativeQuery = true)
     List<Car> getCarList(Date createdDate, String manufactur);
 
+    @Query(value = "SELECT * FROM CAR WHERE MODEL = ?1", nativeQuery = true)
+    Car getCarByModel(String model);
+
 }

@@ -1,9 +1,12 @@
 package com.rnd.springboot3.service;
 
-import org.redisson.Redisson;
+import com.rnd.springboot3.constant.CarConstant;
+import com.rnd.springboot3.entity.Car;
+import com.rnd.springboot3.exception.NotFoundException;
+import com.rnd.springboot3.repository.CarRepository;
 import org.redisson.api.RMap;
-import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -11,32 +14,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class RedisService {
+public class RedisService extends CommonService {
 
-    public RedissonClient redisson() {
-        Config config = new Config();
-        config.useSingleServer()
-                .setAddress("redis://localhost:6379"); // Replace with your Redis server details
-        return Redisson.create(config);
-    }
+    @Autowired
+    private CarRepository carRepository;
 
-    public Map<String, Object> storeDataToRedis(String key) {
+    public Map<String, Object> storeDataToRedis(String model) {
         Map<String, Object> result = new HashMap<>();
+        Car car = carRepository.getCarByModel(model);
 
-        RMap<String, Object> rMap = redisson().getMap(key);
+        if(car == null) {
+              throw new NotFoundException(CarConstant.STATUS_CODE_NOT_FOUND, CarConstant.STATUS_MESSAGE_FAILED
+                      .replace("{value}", "Data not found!"));
+        }
+
+        RMap<String, Object> rMap = redisson().getMap(model);
         if(!rMap.isExists()) {
-            Map<String, Object> mapData = new HashMap<>();
-            mapData.put("merk", "Honda");
-            mapData.put("type", "Mobilio");
-            rMap.put(key, mapData);
-            rMap.expire(Duration.ofMinutes(5));
+            rMap.put(model, car);
+            rMap.expire(Duration.ofMinutes(10));
 
-            result.put("data" , mapData);
-            result.put("responseStatus", 200);
+            result.put("data" , car);
+            result.put("responseStatus", CarConstant.STATUS_CODE_SUCCESS);
             result.put("responseMessage", "Success store data to Redis");
         } else {
-            result.put("data" , rMap.get(key));
-            result.put("responseStatus", 200);
+            result.put("data" , rMap.get(model));
+            result.put("responseStatus", CarConstant.STATUS_CODE_SUCCESS);
             result.put("responseMessage", "Success get data to Redis");
         }
         return result;

@@ -12,7 +12,8 @@ import java.io.IOException;
 @SpringBootApplication
 @ComponentScan(basePackages = {
         "com.rnd.springboot3.service",
-        "com.rnd.springboot3.controller"
+        "com.rnd.springboot3.controller",
+		"com.rnd.springboot3.repository"
 })
 public class Springboot3Application {
 
