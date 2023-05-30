@@ -1,29 +1,15 @@
 pipeline {
-	agent any
-
-	environment {
-		mavenHome = tool 'jenkins-maven'
-	}
-
-	tools {
-		jdk 'java-17'
-	}
-
-	stages {
-		stage('Build'){
-			steps {
-				bat "mvn clean install -DskipTests"
-			}
-		}
-		stage('Test'){
-			steps{
-				bat "mvn test"
-			}
-		}
-		stage('Deploy') {
-			steps {
-			    bat "mvn jar:jar deploy:deploy"
-			}
-		}
-	}
+	agent none
+  stages {
+  	stage('Maven Install') {
+    	agent {
+      	docker {
+        	image 'maven:3.9.1'
+        }
+      }
+      steps {
+      	sh 'mvn clean install'
+      }
+    }
+  }
 }
