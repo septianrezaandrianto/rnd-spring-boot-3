@@ -13,11 +13,12 @@ pipeline {
             }
         }
         stage('Docker Build') {
-    	agent {
-    	    docker {
-                steps {
-                    bat 'echo "Docker Build ........."'
-                    sh 'docker build -t rnd-springboot-3 .'
+            agent {
+                docker {
+                    steps {
+                        bat 'echo "Docker Build ........."'
+                        sh 'docker build -t rnd-springboot-3 .'
+                    }
                 }
             }
         }
