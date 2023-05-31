@@ -1,7 +1,7 @@
 node {
 	    // reference to maven
-	    // ** NOTE: This 'maven-3.5.2' Maven tool must be configured in the Jenkins Global Configuration.
-	    def mvnHome = tool 'maven-3.9.1'
+	    // ** NOTE: This 'jenkins-maven' Maven tool must be configured in the Jenkins Global Configuration.
+	    def mvnHome = tool 'jenkins-maven'
 
 
 	    // holds reference to docker image
@@ -14,9 +14,9 @@ node {
 	      // Get some code from a GitHub repository
 	      git 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git'
 	      // Get the Maven tool.
-	      // ** NOTE: This 'maven-3.5.2' Maven tool must be configured
+	      // ** NOTE: This 'jenkins-maven' Maven tool must be configured
 	      // **       in the global configuration.
-	      mvnHome = tool 'maven-3.9.1'
+	      mvnHome = tool 'jenkins-maven'
 	    }
 
 	    stage('Build Project') {
