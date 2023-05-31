@@ -3,7 +3,6 @@ node {
 	    // ** NOTE: This 'jenkins-maven' Maven tool must be configured in the Jenkins Global Configuration.
 	    def mvnHome = tool 'jenkins-maven'
 
-
 	    // holds reference to docker image
 	    def dockerImage
 	    // ip address of the docker private repository(nexus)
@@ -12,7 +11,7 @@ node {
 
 	    stage('Clone Repo') { // for display purposes
 	      // Get some code from a GitHub repository
-	      git 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git'
+	      url :  'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git'
 	      // Get the Maven tool.
 	      // ** NOTE: This 'jenkins-maven' Maven tool must be configured
 	      // **       in the global configuration.
