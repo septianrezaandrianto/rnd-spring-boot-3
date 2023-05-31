@@ -11,7 +11,7 @@ node {
 
 	    stage('Clone Repo') { // for display purposes
 	      // Get some code from a GitHub repository
-	      url :  'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git'
+	      git 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git'
 	      // Get the Maven tool.
 	      // ** NOTE: This 'jenkins-maven' Maven tool must be configured
 	      // **       in the global configuration.
@@ -20,7 +20,7 @@ node {
 
 	    stage('Build Project') {
 	      // build project via maven
-	      sh "'${mvnHome}/bin/mvn' clean install"
+	      bat "'${mvnHome}/bin/mvn' clean install"
 	    }
 
 	    stage('Build Docker Image') {
@@ -34,11 +34,11 @@ node {
 
 	      echo "Docker Image Tag Name: ${dockerImageTag}"
 
-		  sh "docker stop rnd-springboot-3"
+		  bat "docker stop rnd-springboot-3"
 
-		  sh "docker rm rnd-springboot-3"
+		  bat "docker rm rnd-springboot-3"
 
-		  sh "docker run --name rnd-springboot-3 -d -p 8090:8090 rnd-springboot-3:${env.BUILD_NUMBER}"
+		  bat "docker run --name rnd-springboot-3 -d -p 8090:8090 rnd-springboot-3:${env.BUILD_NUMBER}"
 
 		  // docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
 	      //    dockerImage.push("${env.BUILD_NUMBER}")
