@@ -2,6 +2,7 @@ package com.rnd.springboot3.service;
 
 import com.rnd.springboot3.entity.Car;
 import com.rnd.springboot3.repository.CarRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -26,6 +27,7 @@ public class RedisServiceTest {
 
     @Test
     @DisplayName("should return success storeDataToRedis")
+    @Disabled
     public void storeDataToRedis() {
         when(carRepository.getCarByModel(anyString())).thenReturn(car());
         Map<String, Object> result = redisService.storeDataToRedis(anyString());

@@ -11,7 +11,9 @@ public class CommonService {
     protected RedissonClient redisson() {
         Config config = new Config();
         config.useSingleServer()
-                .setAddress("redis://localhost:6379"); // Replace with your Redis server details
+                .setAddress("redis://0.0.0.0:6379");
+//                // local
+//                .setAddress("redis://localhost:6379"); // Replace with your Redis server details
         return Redisson.create(config);
     }
 
