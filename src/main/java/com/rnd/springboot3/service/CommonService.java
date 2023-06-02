@@ -4,16 +4,21 @@ import lombok.extern.slf4j.Slf4j;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
+import org.springframework.beans.factory.annotation.Value;
 
 @Slf4j
 public class CommonService {
 
+    @Value("${spring.data.redis.port}")
+    private long RedisPort;
+
+    @Value("${spring.data.redis.host}")
+    private String redisHost;
+
     protected RedissonClient redisson() {
         Config config = new Config();
         config.useSingleServer()
-                .setAddress("redis://127.0.0.1:6379");
-//                // local
-//                .setAddress("redis://localhost:6379"); // Replace with your Redis server details
+                .setAddress(redisHost + ":" + RedisPort);
         return Redisson.create(config);
     }
 
