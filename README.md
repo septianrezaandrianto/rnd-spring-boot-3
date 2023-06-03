@@ -1,5 +1,9 @@
 # rnd-spring-boot-3
 
+## Medium : 
+1. gRPC Implementation : https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742
+2. Redis Implementation : https://medium.com/@septianrezaa/tutorial-implementasi-redis-pada-project-java-spring-boot-3-dengan-docker-c8526cc76f0
+
 ##General Info, this project using :
 1. Java JDK 17.
 2. Java Spring Boot 3.1.0-SNAPSHOT version.
@@ -34,10 +38,6 @@
 2. Grpc Stub.
 3. Grpc Protobuf.
 4. Javax Anotation.
-
-## Medium : 
-https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742 
-
 
 # Redis 
 ## Library :
