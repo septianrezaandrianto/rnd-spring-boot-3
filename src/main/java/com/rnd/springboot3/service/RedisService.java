@@ -16,6 +16,9 @@ import java.util.Map;
 @Service
 public class RedisService extends CommonService {
 
+    @Value("${spring.cache.redis.time-to-live}")
+    private long ttl;
+
     @Autowired
     private CarRepository carRepository;
 
@@ -31,7 +34,7 @@ public class RedisService extends CommonService {
         RMap<String, Object> rMap = redisson().getMap(model);
         if(!rMap.isExists()) {
             rMap.put(model, car);
-            rMap.expire(Duration.ofMinutes(10));
+            rMap.expire(Duration.ofMinutes(ttl));
 
             result.put("data" , car);
             result.put("responseStatus", CarConstant.STATUS_CODE_SUCCESS);
