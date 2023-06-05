@@ -1,49 +1,31 @@
-node {
-	    // reference to maven
-	    // ** NOTE: This 'jenkins-maven' Maven tool must be configured in the Jenkins Global Configuration.
-	    def mvnHome = tool 'jenkins-maven'
+pipeline {
+  agent any
+  environment {
+    MAVEN_ARGS=" -e clean install"
+    registry = ""
+    dockerContainerName = 'rnd-springboot-3.0'
+    dockerImageName = 'rnd-springboot-3.0'
+  }
+  stages {
+    stage('Build') {
+       steps {
+   withMaven(maven: 'jenkins-maven') {
+            sh "mvn ${MAVEN_ARGS}"
+        }
+       }
+    }git
 
-	    // holds reference to docker image
-	    def dockerImage
-	    // ip address of the docker private repository(nexus)
-
-	    def dockerImageTag = "rnd-springboot-3${env.BUILD_NUMBER}"
-
-	    stage('Clone Repo') { // for display purposes
-	      // Get some code from a GitHub repository
-	      url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git'
-	      // Get the Maven tool.
-	      // ** NOTE: This 'jenkins-maven' Maven tool must be configured
-	      // **       in the global configuration.
-	      mvnHome = tool 'jenkins-maven'
-	    }
-
-	    stage('Build Project') {
-	      // build project via maven
-	      bat "'${mvnHome}/bin/mvn' clean install"
-	    }
-
-	    stage('Build Docker Image') {
-	      // build docker image
-	      dockerImage = docker.build("rnd-springboot-3:${env.BUILD_NUMBER}")
-	    }
-
-	    stage('Deploy Docker Image'){
-
-	      // deploy docker image to nexus
-
-	      echo "Docker Image Tag Name: ${dockerImageTag}"
-
-		  bat "docker stop rnd-springboot-3"
-
-		  bat "docker rm rnd-springboot-3"
-
-		  bat "docker run --name rnd-springboot-3 -d -p 8090:8090 rnd-springboot-3:${env.BUILD_NUMBER}"
-
-		  // docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-	      //    dockerImage.push("${env.BUILD_NUMBER}")
-	      //      dockerImage.push("latest")
-	      //  }
-
-	    }
+ stage('clean container') {
+      steps {
+       sh 'docker ps -f name=${dockerContainerName} -q | xargs --no-run-if-empty docker container stop'
+       sh 'docker container ls -a -fname=${dockerContainerName} -q | xargs -r docker container rm'
+       sh 'docker images -q --filter=reference=${dockerImageName} | xargs --no-run-if-empty docker rmi -f'
+      }
+    }
+  stage('docker-compose start') {
+      steps {
+       sh 'docker compose up -d'
+      }
+    }
+  }
 }
