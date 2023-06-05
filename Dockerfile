@@ -22,6 +22,10 @@ ENTRYPOINT ["java","-jar","app.jar"]
 # docker stop <container_id>    ==> docker stop d0308bcd2b28    --> for stop docker container
 # docker rm <container_id>    ==> docker rm d0308bcd2b28    --> for delete docker container
 # docker run -d --name <container_name> -p <expose_port>:<properites_port> <image_name>:<image_port>    ==> docker run -d --name springboot-3.0 -p 8099:8080 springboot-3.0 ----> for running container docker
+# docker run --rm -p 8099:8099 rnd-springboot-3.0
+
+# docker tag <image_name>:<tag> <username>/<image_name>:<tag>    --> docker tag rnd-springboot-3.0:latest septianreza/rnd-springboot-3.0:latest   ==> untuk membuat tag yang akan di push ke docker hub
+# docker push <username>/<image_name>:<tag>    --> docker push septianreza/rnd-springboot-3.0:latest    ==> untuk push image ke docker hub
 
 
 # for running sonar

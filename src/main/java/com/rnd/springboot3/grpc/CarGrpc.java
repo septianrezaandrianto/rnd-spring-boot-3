@@ -18,9 +18,7 @@ import java.util.List;
 @GrpcService
 public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CarGrpc.class);
-
-    private static SimpleDateFormat DATE_DISPLAY = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat dateDisplay = new SimpleDateFormat("dd/MM/yyyy");
 
     private CarDao carDao = new CarDao();
     /**
@@ -47,7 +45,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                     .setManufactur(car.getManufactur())
                     .setModel(car.getModel())
                     .setType(car.getType())
-                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                    .setCreatedDate(dateDisplay.format(car.getCreatedDate()))
                     .build();
 
             response = mappingResponseGetCar(CarConstant.STATUS_CODE_SUCCESS, CarConstant.STATUS_MESSAGE_SUCCESS,
@@ -87,7 +85,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                         .setManufactur(car.getManufactur())
                         .setModel(car.getModel())
                         .setType(car.getType())
-                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                        .setCreatedDate(dateDisplay.format(car.getCreatedDate()))
                         .build()
                 );
             }
@@ -120,7 +118,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                         .setManufactur(car.getManufactur())
                         .setModel(car.getModel())
                         .setType(car.getType())
-                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                        .setCreatedDate(dateDisplay.format(car.getCreatedDate()))
                         .build()
                 );
             }
@@ -158,7 +156,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                         .setManufactur(car.getManufactur())
                         .setModel(car.getModel())
                         .setType(car.getType())
-                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                        .setCreatedDate(dateDisplay.format(car.getCreatedDate()))
                         .build()
                 );
             }
@@ -197,7 +195,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                 .setManufactur(car.getManufactur())
                 .setModel(car.getModel())
                 .setType(car.getType())
-                .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                .setCreatedDate(dateDisplay.format(car.getCreatedDate()))
                 .build();
 
         CarResponseFinal response = CarResponseFinal.newBuilder()
@@ -226,7 +224,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                         .setManufactur(car.getManufactur())
                         .setModel(car.getModel())
                         .setType(car.getType())
-                        .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()))
+                        .setCreatedDate(dateDisplay.format(car.getCreatedDate()))
                     .build();
             carDao.deleteCar(request.getId());
 
@@ -252,7 +250,7 @@ public class CarGrpc extends CarServiceGrpc.CarServiceImplBase {
                     .setManufactur(request.getManufactur())
                     .setType(request.getType())
                     .setModel(request.getModel())
-                    .setCreatedDate(DATE_DISPLAY.format(car.getCreatedDate()));
+                    .setCreatedDate(dateDisplay.format(car.getCreatedDate()));
             carDao.updateCar(carResponse.build());
 
             response = CarResponseFinal.newBuilder()

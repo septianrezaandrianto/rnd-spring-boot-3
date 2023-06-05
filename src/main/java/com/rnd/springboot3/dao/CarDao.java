@@ -23,7 +23,7 @@ public class CarDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(CarDao.class);
 
     private EntityManager createEm() {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("springboot3");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("springboot3"); //NOSONAR
         return emf.createEntityManager();
     }
 

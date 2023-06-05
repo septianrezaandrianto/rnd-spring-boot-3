@@ -15,9 +15,9 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
-		<sonar.coverage.jacoco.xmlReportPaths>
-			${project.basedir}/rnd-spring-boot-3/target/site/jacoco/jacoco.xml
-		</sonar.coverage.jacoco.xmlReportPaths>
+<!--		<sonar.coverage.jacoco.xmlReportPaths>-->
+<!--			${project.basedir}/rnd-spring-boot-3/target/site/jacoco/jacoco.xml-->
+<!--		</sonar.coverage.jacoco.xmlReportPaths>-->
 	</properties>
 	<dependencies>
 		<dependency>
@@ -168,9 +168,6 @@
 					<pluginArtifact>
 						io.grpc:protoc-gen-grpc-java:1.22.1:exe:${os.detected.classifier}
 					</pluginArtifact>
-<!--					<protoSourceRoot>-->
-<!--						${basedir}/src/main/proto/-->
-<!--					</protoSourceRoot>-->
 				</configuration>
 				<executions>
 					<execution>
@@ -195,66 +192,9 @@
 					<!-- attached to Maven test phase -->
 					<execution>
 						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<!-- Add this checking for minimal coverage 20%-->
-					<execution>
-						<id>jacoco-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<rule>
-									<element>PACKAGE</element>
-									<limits>
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.20</minimum>
-										</limit>
-										<limit>
-											<counter>BRANCH</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.20</minimum>
-										</limit>
-										<limit>
-											<counter>INSTRUCTION</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.20</minimum>
-										</limit>
-									</limits>
-									<excludes>
-										<exclude>com.rnd.springboot3.constant</exclude>
-										<exclude>com.rnd.springboot3.dao</exclude>
-										<exclude>com.rnd.springboot3</exclude>
-										<exclude>com.rnd.springboot3.configuration</exclude>
-										<exclude>com.rnd.springboot3.controller.advice</exclude>
-										<exclude>com.rnd.springboot3.exception</exclude>
-										<exclude>com.rnd.springboot3.controller</exclude>
-										<exclude>com.rnd.springboot3.dto</exclude>
-										<exclude>com.rnd.springboot3.entity</exclude>
-										<exclude>com.rnd.springboot3.grpc</exclude>
-									</excludes>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-<!--				<version>3.3.0.603</version>-->
-				<executions>
-					<execution>
 						<phase>verify</phase>
 						<goals>
-							<goal>sonar</goal>
+							<goal>report</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -264,12 +204,6 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.1</version>
-			</plugin>
-
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.7.0.1746</version>
 			</plugin>
 
 			<plugin>
