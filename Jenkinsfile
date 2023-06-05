@@ -1,77 +1,21 @@
 pipeline {
     agent any
-    environment {
-        MAVEN_ARGS=" -e clean install"
-        registry = ""
-        dockerContainerName = 'rnd-springboot-3.0'
-        dockerImageName = 'rnd-springboot-3.0'
+    tools {
+        jdk 'java-jdk17'
+        mvn 'jenkins-maven'
     }
 
     stages {
-        stage('Build') {
+        stage('Git Checkout') {
             steps {
-                withMaven(maven: 'jenkins-maven') {
-                    sh "mvn ${MAVEN_ARGS}"
-                }
+                git changelog: false, poll: false, url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git/'
             }
         }
-
-        stage('clean container') {
+        stage('Sonar Analysis') {
             steps {
-               sh 'docker ps -f name=${dockerContainerName} -q | xargs --no-run-if-empty docker container stop'
-               sh 'docker container ls -a -fname=${dockerContainerName} -q | xargs -r docker container rm'
-               sh 'docker images -q --filter=reference=${dockerImageName} | xargs --no-run-if-empty docker rmi -f'
-            }
-        }
-
-        stage('docker-compose start') {
-            steps {
-                sh 'docker compose up -d'
+                sh 'mvn clean package'
+                sh ''' mvn clean verify sonar:sonar -Dsonar.projectKey=rnd-springboot-3 -Dsonar.projectName='rnd-springboot-3' -Dsonar.host.url=http://localhost:9000 -Dsonar.token=sqp_9591bb4778470b26b47be54ea13b0a1dc39f0dd4 '''
             }
         }
     }
 }
-
-// pipeline {
-//     agent any
-//
-//     stages {
-//         stage('Checkout') {
-//             steps {
-//                 // Checkout your source code from version control (e.g., Git)
-//                 checkout scm
-//             }
-//         }
-//
-//         stage('Build') {
-//             steps {
-//                 // Build your Spring Boot application
-//                 sh 'mvn clean package'
-//             }
-//         }
-//
-//         stage('Test') {
-//             steps {
-//                 // Run tests for your Spring Boot application
-//                 sh 'mvn test'
-//             }
-//         }
-//
-//         stage('Build Docker Image') {
-//             steps {
-//                 // Build a Docker image for your Spring Boot application
-//                 sh 'docker build -t your-image-name .'
-//             }
-//         }
-//
-//         stage('Deploy') {
-//             steps {
-//                 // Deploy the Docker image to a Docker registry or Kubernetes cluster
-//                 sh 'docker push your-image-name'
-//
-//                 // Additional deployment steps (e.g., deploying to Kubernetes)
-//                 // ...
-//             }
-//         }
-//     }
-// }
