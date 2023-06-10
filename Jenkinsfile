@@ -4,7 +4,6 @@ pipeline {
         jdk 'java-jdk17'
         maven 'jenkins-maven'
     }
-
     stages {
         stage('Git Checkout') {
             steps {
