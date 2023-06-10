@@ -3,7 +3,7 @@
 ## Medium : 
 1. gRPC Implementation : https://medium.com/@septianrezaa/tutorial-membuat-grpc-crud-dengan-java-17-dan-springboot-3-127aefd9e742
 2. Redis Implementation : https://medium.com/@septianrezaa/tutorial-implementasi-redis-pada-project-java-spring-boot-3-dengan-docker-c8526cc76f0
-3. Sonarqube dan Jenkins Implementation : https://medium.com/@septianrezaa/tutorial-implementasi-code-quality-check-dengan-sonarqube-dan-jenkins-pada-project-spring-boot-d7555be1507b
+3. Sonarqube dan Jenkins Implementation (Part I) : https://medium.com/@septianrezaa/tutorial-implementasi-code-quality-check-dengan-sonarqube-dan-jenkins-pada-project-spring-boot-d7555be1507b
 
 ##General Info, this project using :
 1. Java JDK 17.
