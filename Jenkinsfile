@@ -1,16 +1,15 @@
 pipeline {
     agent any
-    options {
-        buildDiscarder(logRotator(numToKeepStr: '5'))
-    }
-    environment {
-        DOCKERHUB_CREDENTIALS = credentials('dockerhub')
+    tools {
+        maven 'jenkins-maven'
     }
 
     stages {
         stage('Git Checkout') {
             steps {
-                git changelog: false, poll: false, url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git/'
+//                 git changelog: false, poll: false, url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git/'
+                checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3']])
+                bat 'mvn clean install'
             }
         }
         stage('SonarQube Analysis') {
@@ -27,26 +26,31 @@ pipeline {
             }
         }
 
-        stage('Build Image') {
+        stage('Build Docker Image') {
             steps {
-                 bat 'docker build -t septianreza/rnd-springboot-3.0 .'
+                script {
+                    bat 'docker build -t septianreza/rnd-springboot-3.0 .'
+                }
             }
         }
-
-        stage('Deploy Image') {
+        stage('Deploy Docker Image') {
             steps {
-                bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                script {
+                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
+                        bat 'docker login -u septianreza -p ${dockerhub-password}'
+                    }
+                }
             }
         }
-
-        stage('Push') {
+        stage('Docker Push') {
             steps {
-                bat 'docker push septianreza/rnd-springboot-3.0'
+                script {
+                    bat 'docker push septianreza/rnd-springboot-3.0'
+                }
             }
         }
 
     }
-
     post {
         always {
             bat 'docker logout'
