@@ -42,7 +42,7 @@ pipeline {
                     bat 'docker push septianreza/rnd-springboot-3.0'
                 }
             }
-        }/
+        }
 
     }
     post {
