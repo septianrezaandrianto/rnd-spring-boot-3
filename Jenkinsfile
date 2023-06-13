@@ -7,7 +7,6 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-//                 git changelog: false, poll: false, url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git/'
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3']])
                 bat 'mvn clean install'
             }
@@ -37,7 +36,7 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
-                        sh 'docker login -u septianreza -p ${dockerhub-password}'
+                        bat ''' docker login -u septianreza -p "%dockerhub-password%" '''
                     }
                     bat 'docker push septianreza/rnd-springboot-3.0'
                 }
