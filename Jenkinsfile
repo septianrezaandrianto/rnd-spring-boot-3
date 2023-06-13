@@ -1,12 +1,17 @@
 pipeline {
     agent any
+    environment {
+        registry = "septianreza/rnd-springboot-3.0"
+        registryCredential = 'dockerhub'
+        dockerImage = ''
+      }
     stages {
         stage('Git Checkout') {
             steps {
                 git changelog: false, poll: false, url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3.git/'
             }
         }
-        stage('SonarQube analysis') {
+        stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     bat 'mvn clean package'
@@ -14,9 +19,33 @@ pipeline {
                 }
             }
         }
-        stage("Quality gate") {
+        stage("Quality Gate") {
             steps {
                 waitForQualityGate abortPipeline: true
+            }
+        }
+
+        stage('Building image') {
+            steps {
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+
+        stage('Deploy Image') {
+            steps {
+                script {
+                    docker.withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+
+        stage('Remove Unused docker image') {
+            steps {
+                bat "docker rmi $registry:$BUILD_NUMBER"
             }
         }
     }
