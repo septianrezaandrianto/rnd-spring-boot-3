@@ -2,7 +2,7 @@ pipeline {
     agent any
     environment {
         registry = "septianreza/rnd-springboot-3.0"
-        registryCredential = 'dockerhub'
+        registryCredential = credentials('dockerhub')
         dockerImage = ''
       }
     stages {
