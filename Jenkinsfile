@@ -1,10 +1,9 @@
 pipeline {
     agent any
     environment {
-        registry = "septianreza/rnd-springboot-3.0"
         registryCredential = credentials('dockerhub')
-        dockerImage = ''
-      }
+    }
+
     stages {
         stage('Git Checkout') {
             steps {
@@ -25,28 +24,28 @@ pipeline {
             }
         }
 
-        stage('Building image') {
+        stage('Build Image') {
             steps {
-                script {
-                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
-                }
+                 bat 'docker build -t septianreza/rnd-springboot-3.0 .'
             }
         }
 
         stage('Deploy Image') {
             steps {
-                script {
-                    docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
-                    }
-                }
+                bat 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
-        stage('Remove Unused docker image') {
+        stage('Push') {
             steps {
-                bat "docker rmi $registry:$BUILD_NUMBER"
+                bat 'docker push lloydmatereke/jenkins-docker-hub'
             }
+        }
+    }
+
+    post {
+        always {
+            bat 'docker logout'
         }
     }
 }
