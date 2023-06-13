@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
@@ -38,9 +41,10 @@ pipeline {
 
         stage('Push') {
             steps {
-                bat 'docker push lloydmatereke/jenkins-docker-hub'
+                bat 'docker push septianreza/rnd-springboot-3.0'
             }
         }
+
     }
 
     post {
