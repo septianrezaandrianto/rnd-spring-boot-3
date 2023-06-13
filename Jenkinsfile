@@ -33,22 +33,16 @@ pipeline {
                 }
             }
         }
-        stage('Deploy Docker Image') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
-                        bat 'docker login --username septianreza --password-stdin ${dockerhub-password}'
-                    }
-                }
-            }
-        }
         stage('Docker Push') {
             steps {
                 script {
+                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
+                        bat 'docker login --username septianreza --password ${dockerhub-password}'
+                    }
                     bat 'docker push septianreza/rnd-springboot-3.0'
                 }
             }
-        }
+        }/
 
     }
     post {
