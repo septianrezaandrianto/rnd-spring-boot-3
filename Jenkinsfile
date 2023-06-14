@@ -28,25 +28,33 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    bat 'docker build -t septianreza/rnd-springboot-3.0 .'
-                }
-            }
-        }
-        stage('Docker Push') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
-                        bat ''' docker login -u septianreza -p "%dockerhub-password%" '''
-                    }
-                    bat 'docker push septianreza/rnd-springboot-3.0'
+                    bat 'docker build -t rnd-springboot-3.0 .'
                 }
             }
         }
 
-    }
-    post {
-        always {
-            bat 'docker logout'
+        stage ('Docker Run') {
+            steps {
+                script {
+                    bat 'docker run -d --name rnd-springboot-3.0 -p 8080:8080 rnd-springboot-3.0'
+                }
+            }
         }
+//         stage('Docker Push') {
+//             steps {
+//                 script {
+//                     withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
+//                         bat ''' docker login -u septianreza -p "%dockerhub-password%" '''
+//                     }
+//                     bat 'docker push septianreza/rnd-springboot-3.0'
+//                 }
+//             }
+//         }
+
     }
+//     post {
+//         always {
+//             bat 'docker logout'
+//         }
+//     }
 }
