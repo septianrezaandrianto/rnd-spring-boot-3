@@ -8,7 +8,7 @@ pipeline {
         stage('Git Checkout') {
             steps {
                 checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/septianrezaandrianto/rnd-spring-boot-3']])
-                bat 'mvn clean install'
+                bat 'mvn clean install -Dmaven.plugin.validation=VERBOSE'
                 echo 'Git Checkout Completed'
             }
         }
