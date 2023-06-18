@@ -174,6 +174,86 @@
 					]
 				},
 				{
+					"name": "redis",
+					"item": [
+						{
+							"name": "inquiry",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8085/redis/inquiry?key=Pajero",
+									"host": [
+										"localhost"
+									],
+									"port": "8085",
+									"path": [
+										"redis",
+										"inquiry"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "Pajero"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getData",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/redis/getData?key=Testing 123",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"redis",
+										"getData"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "Testing 123"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "save",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8080/redis/save?model=Hobah",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"redis",
+										"save"
+									],
+									"query": [
+										{
+											"key": "model",
+											"value": "Hobah"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "Save Cars",
 					"request": {
 						"method": "POST",
@@ -275,6 +355,84 @@
 									"key": "manufactur",
 									"value": "Acura",
 									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Guitar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"brandName\": \"Ibanez\",\r\n    \"country\": \"Japan\",\r\n    \"guitarDetailRequestList\": [\r\n        {\r\n            \"type\": \"RGT6EX\",\r\n            \"price\": 1500000\r\n        },\r\n        {\r\n            \"type\": \"RGD76TP\",\r\n            \"price\": 1000000\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/guitar/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guitar",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Guitar Using JPA",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guitar/getDetailGuitarUsingJpa?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guitar",
+								"getDetailGuitarUsingJpa"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Guitar Using Dao",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/guitar/getDetailGuitarDao?id=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"guitar",
+								"getDetailGuitarDao"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
 								}
 							]
 						}
