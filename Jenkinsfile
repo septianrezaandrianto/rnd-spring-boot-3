@@ -6,9 +6,8 @@ pipeline {
 
     environment {
         BUILD_NUMBER_ENV = "${env.BUILD_NUMBER}"
-        SEPARATOR_TEXT = "*********************************************************"
-        TEXT_SUCCESS_BUILD = "---Jenkins Report---${env.SEPARATOR_TEXT}\n\nPipeline Number : #${env.BUILD_NUMBER}\nProject Name : ${JOB_NAME}\nBuild Success"
-        TEXT_FAILURE_BUILD = "---Jenkins Report---${env.SEPARATOR_TEXT}\n\nPipeline Number : #${env.BUILD_NUMBER}\nProject Name : ${JOB_NAME}\nBuild Failure"
+        TEXT_SUCCESS_BUILD = "[#${env.BUILD_NUMBER}] Project Name : ${JOB_NAME} is Success"
+        TEXT_FAILURE_BUILD = "[#${env.BUILD_NUMBER}] Project Name : ${JOB_NAME} is Failure"
     }
 
     stages {
@@ -76,14 +75,14 @@ pipeline {
         success {
             script{
                  withCredentials([string(credentialsId: 'telegram-token', variable: 'TOKEN'), string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
-                    bat ''' curl -s -X POST https://api.telegram.org/bot"%TOKEN%"/sendMessage -d text="%TEXT_SUCCESS_BUILD%" -d chat_id="%CHAT_ID%" '''
+                    bat ''' curl -s -X POST https://api.telegram.org/bot"%TOKEN%"/sendMessage -d chat_id="%CHAT_ID%" -d text="%TEXT_SUCCESS_BUILD%" '''
                  }
             }
         }
         failure {
             script{
                 withCredentials([string(credentialsId: 'telegram-token', variable: 'TOKEN'), string(credentialsId: 'telegram-chat-id', variable: 'CHAT_ID')]) {
-                    bat ''' curl -s -X POST https://api.telegram.org/bot"%TOKEN%"/sendMessage -d text="%TEXT_FAILURE_BUILD%" -d chat_id="%CHAT_ID%" '''
+                    bat ''' curl -s -X POST https://api.telegram.org/bot"%TOKEN%"/sendMessage -d chat_id="%CHAT_ID%" -d text="%TEXT_FAILURE_BUILD%" '''
                 }
             }
         }
