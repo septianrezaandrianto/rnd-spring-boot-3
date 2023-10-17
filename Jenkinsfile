@@ -47,16 +47,16 @@ pipeline {
             }
         }
 
-        stage('Docker Push') {
-            steps {
-                script {
-                    withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
-                        bat ''' docker login -u septianreza -p "%dockerhub-password%" '''
-                    }
-                    bat 'docker push septianreza/rnd-springboot-3.0'
-                }
-            }
-        }
+//         stage('Docker Push') {
+//             steps {
+//                 script {
+//                     withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhub-password')]) {
+//                         bat ''' docker login -u septianreza -p "%dockerhub-password%" '''
+//                     }
+//                     bat 'docker push septianreza/rnd-springboot-3.0'
+//                 }
+//             }
+//         }
 
         stage ('Docker Run') {
             steps {
